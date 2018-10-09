@@ -18,15 +18,15 @@ using DevExpress.XtraScheduler.iCalendar.Native;
 
 namespace GoogleCalendarExample {
     public class RecurrencePatternParser {
-        readonly SchedulerStorage storage;
+        readonly SchedulerDataStorage storage;
         VRecurrenceRule rule = null;
 
-        public RecurrencePatternParser(SchedulerStorage storage) {
+        public RecurrencePatternParser(SchedulerDataStorage storage) {
             this.storage = storage;
             this.rule = null;
         }
 
-        public SchedulerStorage Storage { get { return storage; } }
+        public SchedulerDataStorage Storage { get { return storage; } }
 
         public Appointment Parse(IList<string> stringValue, DateTime start, DateTime end) {
             iCalendarEntryParser parser = new iCalendarEntryParser();
