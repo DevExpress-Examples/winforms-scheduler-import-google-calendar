@@ -21,11 +21,12 @@ namespace GoogleCalendarExample {
         public Form1() {
             InitializeComponent();
             UpdateFormState();
+            schedulerControl1.Start = DateTime.Now;
         }
 
         CalendarService CalendarService { get; set; }
 
-        void OnBtnConnectClick(object sender, EventArgs e) {            
+        void OnBtnConnectClick(object sender, EventArgs e) {
             UserCredential credential;
             using(var stream =
                 new FileStream("secret\\client_secret.json", FileMode.Open, FileAccess.Read)) {
@@ -41,7 +42,7 @@ namespace GoogleCalendarExample {
                     new FileDataStore(credPath, true)).Result;
                 Log("Credential file saved to: " + credPath);
             }
-            
+
             // Create Google Calendar API service.
             CalendarService = new CalendarService(new BaseClientService.Initializer() {
                 HttpClientInitializer = credential,
@@ -64,13 +65,8 @@ namespace GoogleCalendarExample {
             Events events = CalendarService.Events.List(calendarEntry.Id).Execute();
             Log("Loaded {0} events", events.Items.Count);
             this.schedulerStorage1.Appointments.Items.Clear();
-            this.schedulerStorage1.BeginUpdate();
-            try {
-                CalendarImporter importer = new CalendarImporter(this.schedulerStorage1);
-                importer.Import(events.Items);
-            } finally {
-                this.schedulerStorage1.EndUpdate();
-            }
+            CalendarImporter importer = new CalendarImporter(this.schedulerStorage1);
+            importer.Import(events.Items);
             SetStatus(String.Format("Loaded {0} events", events.Items.Count));
             UpdateFormState();
         }
@@ -80,7 +76,8 @@ namespace GoogleCalendarExample {
                 this.cbCalendars.Enabled = false;
                 this.btnUpdate.Enabled = false;
                 this.btnConnect.Enabled = true;
-            } else {
+            }
+            else {
                 this.cbCalendars.Enabled = true;
                 this.btnUpdate.Enabled = true;
                 this.btnConnect.Enabled = false;
@@ -90,7 +87,7 @@ namespace GoogleCalendarExample {
         void Log(string message) {
             this.tbLog.Text += message + "\r\n";
         }
-        void Log(string format, params object[] args ) {
+        void Log(string format, params object[] args) {
             Log(string.Format(format, args));
         }
         void SetStatus(string message) {

@@ -15,18 +15,17 @@ using DevExpress.XtraScheduler;
 
 namespace GoogleCalendarExample {
     class CalendarImporter {
-        SchedulerStorage storage;
-        public CalendarImporter(SchedulerStorage storage) {
+        SchedulerDataStorage storage;
+        public CalendarImporter(SchedulerDataStorage storage) {
             this.storage = storage;
         }
 
-        public SchedulerStorage Storage { get { return storage; } }
+        public SchedulerDataStorage Storage { get { return storage; } }
 
         public void Import(IList<Event> events) {
             Dictionary<string, Appointment> patternHash = new Dictionary<string, Appointment>();
             Dictionary<string, Event> occurrenceHash = new Dictionary<string, Event>();
 
-            Storage.Appointments.BeginUpdate();
             RecurrencePatternParser parser = new RecurrencePatternParser(storage);
             foreach(Event item in events) {
                 Appointment appointment = null;
@@ -45,7 +44,6 @@ namespace GoogleCalendarExample {
                 Storage.Appointments.Add(appointment);
             }
             LinkOccurrencesWithPatterns(occurrenceHash, patternHash);
-            Storage.Appointments.EndUpdate();
         }
         void LinkOccurrencesWithPatterns(Dictionary<string, Event> occurrenceHash, Dictionary<string, Appointment> patternHash) {
             foreach(KeyValuePair<string, Event> occurrenceEntry in occurrenceHash) {
