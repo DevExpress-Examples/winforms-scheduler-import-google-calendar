@@ -14,10 +14,9 @@ using System.Windows.Forms;
 
 namespace GoogleCalendarExample {
     public partial class Form1 : Form {
-        const string DefaultCaption = "Google Calendar Importer";
-        static string[] Scopes = { CalendarService.Scope.CalendarReadonly };
+        static string[] Scopes = { CalendarService.Scope.Calendar };
         static string ApplicationName = "GoogleCalendarExample";
-
+        
         public Form1() {
             InitializeComponent();
             UpdateFormState();
@@ -25,14 +24,22 @@ namespace GoogleCalendarExample {
         }
 
         CalendarService CalendarService { get; set; }
+        CalendarListEntry CalendarEntry { get; set; }
+
+        void Synchronize() {
+            this.dxGoogleCalendarSync1.CalendarService = CalendarService;
+            this.dxGoogleCalendarSync1.CalendarId = CalendarEntry.Id;
+            this.dxGoogleCalendarSync1.Synchronize();
+        }
 
         void OnBtnConnectClick(object sender, EventArgs e) {
+            cbCalendars.SelectedValueChanged -= OnCbCalendarsSelectedValueChanged;
             UserCredential credential;
             using(var stream =
                 new FileStream("secret\\client_secret.json", FileMode.Open, FileAccess.Read)) {
                 string credPath = System.Environment.GetFolderPath(
                     System.Environment.SpecialFolder.Personal);
-                credPath = Path.Combine(credPath, ".credentials");
+                credPath = Path.Combine(credPath, ".credentialss");
 
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
@@ -55,19 +62,17 @@ namespace GoogleCalendarExample {
             }
             cbCalendars.DisplayMember = "Summary";
             cbCalendars.DataSource = calendarList.Items;
-
             cbCalendars.SelectedValueChanged += OnCbCalendarsSelectedValueChanged;
+            CalendarEntry = this.cbCalendars.SelectedValue as CalendarListEntry;
+            Synchronize();
             UpdateFormState();
         }
         void OnCbCalendarsSelectedValueChanged(object sender, EventArgs e) {
-            CalendarListEntry calendarEntry = this.cbCalendars.SelectedValue as CalendarListEntry;
-            Calendar calendar = CalendarService.Calendars.Get(calendarEntry.Id).Execute();
-            Events events = CalendarService.Events.List(calendarEntry.Id).Execute();
-            Log("Loaded {0} events", events.Items.Count);
-            this.schedulerStorage1.Appointments.Items.Clear();
-            CalendarImporter importer = new CalendarImporter(this.schedulerStorage1);
-            importer.Import(events.Items);
-            SetStatus(String.Format("Loaded {0} events", events.Items.Count));
+            CalendarEntry = this.cbCalendars.SelectedValue as CalendarListEntry;
+            this.dxGoogleCalendarSync1.Storage = null;
+            this.schedulerStorage1.Appointments.Clear();
+            this.dxGoogleCalendarSync1.Storage = this.schedulerStorage1;
+            Synchronize();            
             UpdateFormState();
         }
 
@@ -93,5 +98,9 @@ namespace GoogleCalendarExample {
         void SetStatus(string message) {
             this.tsStatus.Text = message;
         }
+
+        void OnBtnUpdateClick(object sender, EventArgs e) {
+            Synchronize();
+        }       
     }
 }
