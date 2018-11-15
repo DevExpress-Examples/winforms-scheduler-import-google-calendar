@@ -1,3 +1,10 @@
+<!-- default file list -->
+*Files to look at*:
+
+* [CalendarImporter.cs](./CS/GoogleCalendarExample/CalendarImporter.cs) (VB: [CalendarImporter.vb](./VB/GoogleCalendarExample/CalendarImporter.vb))
+* [Form1.cs](./CS/GoogleCalendarExample/Form1.cs) (VB: [Form1.vb](./VB/GoogleCalendarExample/Form1.vb))
+* [RecurrencePatternParser.cs](./CS/GoogleCalendarExample/RecurrencePatternParser.cs) (VB: [RecurrencePatternParser.vb](./VB/GoogleCalendarExample/RecurrencePatternParser.vb))
+<!-- default file list end -->
 # How to import Google Calendar using Google Calendar API
 
 
