@@ -5,7 +5,7 @@
 <!-- default badges end -->
 # WinForms Scheduler - Import events from Google Calendar
 
-This example demonstrates how to use the Google Calendar API and the [DXGoogleCalendarSync](https://docs.devexpress.com/WindowsForms/DevExpress.XtraScheduler.GoogleCalendar.DXGoogleCalendarSync) component to import event from your Google calendar.
+This example demonstrates how to use the Google Calendar API and the [DXGoogleCalendarSync](https://docs.devexpress.com/WindowsForms/DevExpress.XtraScheduler.GoogleCalendar.DXGoogleCalendarSync) component to import an event from your Google calendar.
 
 To run this example, open the "Package Manager Console" (Tools - NuGet Package Manager) and execute the following command to include the corresponding Google Calendar API assemblies into the project:
 
