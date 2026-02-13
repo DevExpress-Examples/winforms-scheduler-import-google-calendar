@@ -24,7 +24,7 @@ Install-Package Google.Apis.Calendar.v3
 * [Google Calendars](https://docs.devexpress.com/WindowsForms/120605/controls-and-libraries/scheduler/import-and-export/google-calendars)
 * [Synchronization with Microsoft 365 Calendars](https://docs.devexpress.com/WindowsForms/404317/controls-and-libraries/scheduler/import-and-export/synchronization-with-outlook-365-calendars)
 <!-- feedback -->
-## Does this example address your development requirements/objectives?
+## Does This Example Address Your Development Requirements/Objectives?
 
 [<img src="https://www.devexpress.com/support/examples/i/yes-button.svg"/>](https://www.devexpress.com/support/examples/survey.xml?utm_source=github&utm_campaign=winforms-scheduler-import-google-calendar&~~~was_helpful=yes) [<img src="https://www.devexpress.com/support/examples/i/no-button.svg"/>](https://www.devexpress.com/support/examples/survey.xml?utm_source=github&utm_campaign=winforms-scheduler-import-google-calendar&~~~was_helpful=no)
 
